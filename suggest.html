@@ -39,6 +39,38 @@
 
   a { text-decoration: none; }
 
+
+  /* ---------- TOP NAV ---------- */
+  .site-nav {
+    position: absolute;
+    top: 1.25rem;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .site-nav a {
+    color: #ffffff;
+    font-size: 0.95rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    text-shadow: 0 1px 4px rgba(122,42,32,0.45);
+    transition: background 0.15s ease;
+  }
+
+  .site-nav a:hover { background: rgba(255,255,255,0.22); }
+
+  .site-nav a[aria-current="page"] {
+    background: var(--pink-pill);
+    color: var(--maroon);
+    text-shadow: none;
+  }
+
+  .site-nav a:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+
   /* ---------- HEADER ---------- */
   .hero {
     position: relative;
@@ -48,7 +80,7 @@
       url('assets/hero-bg.jpg');
     background-size: cover;
     background-position: center 35%;
-    padding: 3rem 1.5rem 2.5rem;
+    padding: 5rem 1.5rem 2.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,8 +99,6 @@
     letter-spacing: -0.01em;
     line-height: 0.95;
   }
-
-  .hero-title a { color: inherit; }
 
   .hero-tagline {
     font-style: italic;
@@ -191,13 +221,17 @@
 <body>
 
   <header class="hero">
-    <h1 class="hero-title"><a href="index.html">pretty curious</a></h1>
+    <nav class="site-nav" aria-label="main">
+      <a href="index.html">home</a>
+      <a href="suggest.html" aria-current="page">suggest a video</a>
+    </nav>
+    <h1 class="hero-title">pretty curious</h1>
     <p class="hero-tagline">for the pretty curious hotties &lt;3</p>
   </header>
 
   <main class="suggest">
     <h2>suggest a video</h2>
-    <p class="suggest-intro">got an idea you want us to dig into? drop it below. add your name if you want a to be mentioned in the video! </p>
+    <p class="suggest-intro">got a topic you want us to dig into? drop it below. add your name if you want a shoutout.</p>
 
     <form id="suggest-form" class="suggest-form">
       <label for="suggestion">your idea</label>
@@ -205,14 +239,14 @@
         placeholder="what should we get curious about next?"></textarea>
       <span class="fs-msg" data-fs-error="suggestion"></span>
 
-      <label for="name">name for video mention (optional)</label>
+      <label for="name">name for credit (optional)</label>
       <input type="text" id="name" name="name" data-fs-field
-        placeholder="how should we mention you?">
+        placeholder="how should we credit you?">
       <span class="fs-msg" data-fs-error="name"></span>
 
       <label for="email">email (optional)</label>
       <input type="email" id="email" name="email" data-fs-field
-        placeholder="only if you want a reply when the video is posted">
+        placeholder="only if you want a reply">
       <span class="fs-msg" data-fs-error="email"></span>
 
       <!-- spam honeypot -->
