@@ -42,6 +42,38 @@
 
   a { text-decoration: none; }
 
+
+  /* ---------- TOP NAV ---------- */
+  .site-nav {
+    position: absolute;
+    top: 1.25rem;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .site-nav a {
+    color: #ffffff;
+    font-size: 0.95rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    text-shadow: 0 1px 4px rgba(122,42,32,0.45);
+    transition: background 0.15s ease;
+  }
+
+  .site-nav a:hover { background: rgba(255,255,255,0.22); }
+
+  .site-nav a[aria-current="page"] {
+    background: var(--pink-pill);
+    color: var(--maroon);
+    text-shadow: none;
+  }
+
+  .site-nav a:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+
   /* ---------- HERO ---------- */
   .hero {
     position: relative;
@@ -51,7 +83,7 @@
       url('assets/hero-bg.jpg');
     background-size: cover;
     background-position: center 35%;
-    padding: 4.5rem 1.5rem 4rem;
+    padding: 5.5rem 1.5rem 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -171,7 +203,7 @@
   }
 
   @media (max-width: 480px) {
-    .hero { padding: 3.5rem 1.25rem 3rem; }
+    .hero { padding: 5rem 1.25rem 3rem; }
     .link-pill { font-size: 1.05rem; padding: 1rem 1.25rem; }
   }
 </style>
@@ -179,6 +211,10 @@
 <body>
 
   <section class="hero">
+    <nav class="site-nav" aria-label="main">
+      <a href="index.html" aria-current="page">home</a>
+      <a href="suggest.html">suggest a video</a>
+    </nav>
     <h1 class="hero-title">pretty curious</h1>
     <p class="hero-tagline">for the pretty curious hotties &lt;3</p>
 
@@ -187,7 +223,6 @@
       <a class="link-pill" href="https://open.spotify.com/show/033FQmAxPfjCCuWHq2iEXQ" target="_blank" rel="noopener">spotify</a>
       <a class="link-pill" href="https://www.instagram.com/prettycuriousclub?stkn=MWM3Mm1rYWU3cmhsZw%3D%3D&utm_source=qr" target="_blank" rel="noopener">instagram</a>
       <a class="link-pill" href="https://www.tiktok.com/@prettycuriousclub?_r=1&_t=ZP-99hnvUL2e58" target="_blank" rel="noopener">tiktok</a>
-      <a class="link-pill" href="suggest.html">suggest a video</a>
     </nav>
   </section>
 
