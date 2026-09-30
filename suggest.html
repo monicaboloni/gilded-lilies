@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RTB1JZ61DR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-RTB1JZ61DR');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>suggest a video | pretty curious</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink-deep: #c8127a;
+    --pink-bright: #ff86c4;
+    --pink-pale: #ffc3e0;
+    --pink-pill: #f6a9cf;
+    --pink-pill-hover: #f592c3;
+    --maroon: #7a2a20;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--pink-bright);
+    font-family: 'Lora', serif;
+    color: var(--maroon);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { text-decoration: none; }
+
+  /* ---------- HEADER ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(160deg, rgba(122,42,32,0.34) 0%, rgba(122,42,32,0.22) 45%, rgba(122,42,32,0.4) 100%),
+      url('assets/hero-bg.jpg');
+    background-size: cover;
+    background-position: center 35%;
+    padding: 3rem 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    font-stretch: condensed;
+    transform: scaleX(0.72);
+    transform-origin: center;
+    font-size: clamp(3rem, 11vw, 6rem);
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+  }
+
+  .hero-title a { color: inherit; }
+
+  .hero-tagline {
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+    color: #ffe6f2;
+    margin: 0.9rem 0 0;
+  }
+
+  /* ---------- FORM SECTION ---------- */
+  .suggest {
+    padding: 3rem 1.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .suggest h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    font-stretch: condensed;
+    transform: scaleX(0.75);
+    display: inline-block;
+    font-size: clamp(2rem, 5.5vw, 2.9rem);
+    color: var(--maroon);
+    margin: 0 0 0.75rem;
+  }
+
+  .suggest-intro {
+    max-width: 440px;
+    margin: 0 0 2rem;
+    line-height: 1.6;
+  }
+
+  .suggest-form {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .suggest-form label {
+    margin: 0.6rem 0 0 1rem;
+    font-size: 0.95rem;
+  }
+
+  .suggest-form input:not([type="hidden"]),
+  .suggest-form textarea {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: var(--pink-pale);
+    border: 1px solid #c76e97;
+    border-radius: 18px;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: var(--maroon);
+  }
+
+  .suggest-form ::placeholder { color: #a44a75; }
+  .suggest-form textarea { resize: vertical; }
+
+  .suggest-form input:focus,
+  .suggest-form textarea:focus {
+    outline: 2px solid var(--pink-deep);
+    outline-offset: 2px;
+  }
+
+  .suggest-form [aria-invalid="true"] { border-color: var(--pink-deep); border-width: 2px; }
+
+  .link-pill {
+    display: block;
+    width: 100%;
+    padding: 1rem 1.25rem;
+    background: var(--pink-pill);
+    color: var(--maroon);
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    border: 0;
+    border-radius: 999px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 0 rgba(122,42,32,0.08);
+  }
+
+  .link-pill:hover {
+    background: var(--pink-pill-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(122,42,32,0.18);
+  }
+
+  .link-pill:active { transform: translateY(0); }
+  .link-pill:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+  .suggest-form .link-pill { margin-top: 1rem; }
+
+  .fs-msg { font-size: 0.9rem; margin-left: 1rem; }
+  .fs-msg:empty { display: none; }
+  .fs-success { color: var(--maroon); font-weight: 500; text-align: center; margin: 0.75rem 0 0; }
+  .fs-fail { color: var(--pink-deep); text-align: center; margin: 0.75rem 0 0; }
+
+  .back {
+    display: inline-block;
+    margin-top: 2.5rem;
+    color: var(--maroon);
+    font-style: italic;
+    border-bottom: 1px solid var(--maroon);
+  }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    color: #a44a75;
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1 class="hero-title"><a href="index.html">pretty curious</a></h1>
+    <p class="hero-tagline">for the pretty curious hotties &lt;3</p>
+  </header>
+
+  <main class="suggest">
+    <h2>suggest a video</h2>
+    <p class="suggest-intro">got a topic you want us to dig into? drop it below. add your name if you want a shoutout.</p>
+
+    <form id="suggest-form" class="suggest-form">
+      <label for="suggestion">your idea</label>
+      <textarea id="suggestion" name="suggestion" rows="5" required data-fs-field
+        placeholder="what should we get curious about next?"></textarea>
+      <span class="fs-msg" data-fs-error="suggestion"></span>
+
+      <label for="name">name for credit (optional)</label>
+      <input type="text" id="name" name="name" data-fs-field
+        placeholder="how should we credit you?">
+      <span class="fs-msg" data-fs-error="name"></span>
+
+      <label for="email">email (optional)</label>
+      <input type="email" id="email" name="email" data-fs-field
+        placeholder="only if you want a reply">
+      <span class="fs-msg" data-fs-error="email"></span>
+
+      <!-- spam honeypot -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+      <button type="submit" class="link-pill" data-fs-submit-btn>send it</button>
+
+      <div class="fs-msg fs-success" data-fs-success></div>
+      <div class="fs-msg fs-fail" data-fs-error></div>
+    </form>
+
+    <a class="back" href="index.html">back to home</a>
+  </main>
+
+  <footer>pretty curious</footer>
+
+  <script>
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#suggest-form', formId: 'meaodnve' });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
+</body>
+</html>
