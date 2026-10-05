@@ -184,23 +184,46 @@
     line-height: 1.6;
   }
 
-  .embed-frame {
+  .substack-form {
     width: 100%;
-    max-width: 900px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .substack-form label {
+    margin: 0.6rem 0 0 1rem;
+    font-size: 0.95rem;
+  }
+
+  .substack-form input:not([type="hidden"]) {
+    width: 100%;
+    padding: 1rem 1.25rem;
     background: var(--pink-pale);
     border: 1px solid #c76e97;
     border-radius: 18px;
-    padding: 0.9rem;
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    color: var(--maroon);
   }
 
-  .embed-frame iframe {
-    display: block;
-    width: 100%;
-    height: 320px;
-    border: 0;
-    border-radius: 12px;
-    background: #ffffff;
+  .substack-form ::placeholder { color: #a44a75; }
+
+  .substack-form input:focus {
+    outline: 2px solid var(--pink-deep);
+    outline-offset: 2px;
   }
+
+  .substack-form [aria-invalid="true"] { border-color: var(--pink-deep); border-width: 2px; }
+
+  .substack-form .link-pill { max-width: none; margin-top: 1rem; }
+
+  .fs-msg { font-size: 0.9rem; margin-left: 1rem; }
+  .fs-msg:empty { display: none; }
+  .fs-success { color: var(--maroon); font-weight: 500; text-align: center; margin: 0.75rem 0 0; }
+  .fs-fail { color: var(--pink-deep); text-align: center; margin: 0.75rem 0 0; }
 
   .link-pill {
     display: block;
@@ -212,6 +235,8 @@
     color: var(--maroon);
     font-family: 'Lora', serif;
     font-size: 1.05rem;
+    border: 0;
+    cursor: pointer;
     border-radius: 999px;
     text-align: center;
     transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
@@ -225,6 +250,7 @@
   }
 
   .link-pill:active { transform: translateY(0); }
+  .link-pill:disabled { opacity: 0.6; cursor: wait; transform: none; }
 
   .back {
     display: inline-block;
@@ -255,22 +281,36 @@
   </header>
 
   <main class="substack">
-    <h2>our substack</h2>
-    <p class="substack-intro">subscribe to get new posts straight to your inbox.</p>
+    <h2>coming soon!</h2>
+    <p class="substack-intro">if you'd like to be added to the mailing list once we've launched our substack, please enter your email below.</p>
 
-    <div class="embed-frame">
-      <iframe
-        src="https://prettycuriousclub.substack.com/embed"
-        title="Subscribe to the pretty curious substack"
-        loading="lazy"></iframe>
-    </div>
+    <form id="mailing-form" class="substack-form">
+      <label for="email">email</label>
+      <input type="email" id="email" name="email" required data-fs-field
+        placeholder="you@email.com">
+      <span class="fs-msg" data-fs-error="email"></span>
 
-    <a class="link-pill" href="https://prettycuriousclub.substack.com" target="_blank" rel="noopener">read on substack</a>
+      <input type="hidden" name="list" value="substack mailing list">
+
+      <!-- spam honeypot -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+      <button type="submit" class="link-pill" data-fs-submit-btn>add me</button>
+
+      <div class="fs-msg fs-success" data-fs-success></div>
+      <div class="fs-msg fs-fail" data-fs-error></div>
+    </form>
 
     <a class="back" href="index.html">back to home</a>
   </main>
 
   <footer>pretty curious</footer>
+
+  <script>
+    window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+    formspree('initForm', { formElement: '#mailing-form', formId: 'meaodnve' });
+  </script>
+  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
