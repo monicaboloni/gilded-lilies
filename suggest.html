@@ -47,7 +47,7 @@
   .site-nav { view-transition-name: nav; }
   .hero-title { view-transition-name: title; }
   .hero-tagline { view-transition-name: tagline; }
-  .uploads, .suggest { view-transition-name: content; }
+  .uploads, .suggest, .substack { view-transition-name: content; }
 
   /* the nav highlight is its own layer, so it slides from one link to the other */
   .site-nav a[aria-current="page"]::before {
@@ -102,6 +102,7 @@
     display: flex;
     justify-content: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   .site-nav a {
@@ -278,6 +279,7 @@
   <header class="hero">
     <nav class="site-nav" aria-label="main">
       <a href="index.html">home</a>
+      <a href="substack.html">substack</a>
       <a href="suggest.html" aria-current="page">suggest a video</a>
     </nav>
     <h1 class="hero-title">pretty curious</h1>
