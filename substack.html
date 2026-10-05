@@ -1,1 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-RTB1JZ61DR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-RTB1JZ61DR');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>substack | pretty curious</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --pink-deep: #c8127a;
+    --pink-bright: #ff86c4;
+    --pink-pale: #ffc3e0;
+    --pink-pill: #f6a9cf;
+    --pink-pill-hover: #f592c3;
+    --maroon: #7a2a20;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--pink-bright);
+    font-family: 'Lora', serif;
+    color: var(--maroon);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { text-decoration: none; }
+
+
+  /* ---------- PAGE TRANSITIONS ---------- */
+  @view-transition { navigation: auto; }
+
+  .hero { view-transition-name: hero; }
+  .site-nav { view-transition-name: nav; }
+  .hero-title { view-transition-name: title; }
+  .hero-tagline { view-transition-name: tagline; }
+  .uploads, .suggest, .substack { view-transition-name: content; }
+
+  .site-nav a[aria-current="page"]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 999px;
+    background: var(--pink-pill);
+    view-transition-name: navpill;
+  }
+
+  ::view-transition-group(hero) { z-index: 1; overflow: clip; }
+  ::view-transition-group(content) { z-index: 2; }
+  ::view-transition-group(navpill) { z-index: 3; }
+  ::view-transition-group(nav),
+  ::view-transition-group(title),
+  ::view-transition-group(tagline) { z-index: 4; }
+
+  ::view-transition-group(*) {
+    animation-duration: 0.8s;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  ::view-transition-old(hero),
+  ::view-transition-new(hero) { height: 100%; object-fit: cover; }
+
+  ::view-transition-old(navpill),
+  ::view-transition-new(navpill) { height: 100%; }
+
+  ::view-transition-old(content) { animation: vt-out 0.25s ease both; }
+  ::view-transition-new(content) { animation: vt-in 0.5s 0.35s ease both; }
+
+  @keyframes vt-out { to { opacity: 0; } }
+  @keyframes vt-in { from { opacity: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    @view-transition { navigation: none; }
+  }
+
+  /* ---------- TOP NAV ---------- */
+  .site-nav {
+    position: absolute;
+    top: 1.25rem;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .site-nav a {
+    position: relative;
+    z-index: 0;
+    color: #ffffff;
+    font-size: 0.95rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    text-shadow: 0 1px 4px rgba(122,42,32,0.45);
+    transition: background 0.15s ease;
+  }
+
+  .site-nav a:hover { background: rgba(255,255,255,0.22); }
+
+  .site-nav a[aria-current="page"] {
+    color: var(--maroon);
+    text-shadow: none;
+  }
+
+  .site-nav a[aria-current="page"]:hover { background: none; }
+
+  .site-nav a:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+
+  /* ---------- HEADER ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(160deg, rgba(122,42,32,0.34) 0%, rgba(122,42,32,0.22) 45%, rgba(122,42,32,0.4) 100%),
+      url('assets/hero-bg.jpg');
+    background-size: cover;
+    background-position: center 35%;
+    padding: 5rem 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    font-stretch: condensed;
+    transform: scaleX(0.72);
+    transform-origin: center;
+    font-size: clamp(3rem, 11vw, 6rem);
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: -0.01em;
+    line-height: 0.95;
+  }
+
+  .hero-tagline {
+    font-style: italic;
+    font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+    color: #ffe6f2;
+    margin: 0.9rem 0 0;
+  }
+
+  /* ---------- SUBSTACK SECTION ---------- */
+  .substack {
+    padding: 3rem 1.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .substack h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    font-stretch: condensed;
+    transform: scaleX(0.75);
+    display: inline-block;
+    font-size: clamp(2rem, 5.5vw, 2.9rem);
+    color: var(--maroon);
+    margin: 0 0 0.75rem;
+  }
+
+  .substack-intro {
+    max-width: 440px;
+    margin: 0 0 2rem;
+    line-height: 1.6;
+  }
+
+  .embed-frame {
+    width: 100%;
+    max-width: 900px;
+    background: var(--pink-pale);
+    border: 1px solid #c76e97;
+    border-radius: 18px;
+    padding: 0.9rem;
+  }
+
+  .embed-frame iframe {
+    display: block;
+    width: 100%;
+    height: 320px;
+    border: 0;
+    border-radius: 12px;
+    background: #ffffff;
+  }
+
+  .link-pill {
+    display: block;
+    width: 100%;
+    max-width: 260px;
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: var(--pink-pill);
+    color: var(--maroon);
+    font-family: 'Lora', serif;
+    font-size: 1.05rem;
+    border-radius: 999px;
+    text-align: center;
+    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 0 rgba(122,42,32,0.08);
+  }
+
+  .link-pill:hover {
+    background: var(--pink-pill-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(122,42,32,0.18);
+  }
+
+  .link-pill:active { transform: translateY(0); }
+
+  .back {
+    display: inline-block;
+    margin-top: 2.5rem;
+    color: var(--maroon);
+    font-style: italic;
+    border-bottom: 1px solid var(--maroon);
+  }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    color: #a44a75;
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <nav class="site-nav" aria-label="main">
+      <a href="index.html">home</a>
+      <a href="substack.html" aria-current="page">substack</a>
+      <a href="suggest.html">suggest a video</a>
+    </nav>
+    <h1 class="hero-title">pretty curious</h1>
+    <p class="hero-tagline">for the pretty curious hotties &lt;3</p>
+  </header>
+
+  <main class="substack">
+    <h2>our substack</h2>
+    <p class="substack-intro">subscribe to get new posts straight to your inbox.</p>
+
+    <div class="embed-frame">
+      <iframe
+        src="https://prettycuriousclub.substack.com/embed"
+        title="Subscribe to the pretty curious substack"
+        loading="lazy"></iframe>
+    </div>
+
+    <a class="link-pill" href="https://prettycuriousclub.substack.com" target="_blank" rel="noopener">read on substack</a>
+
+    <a class="back" href="index.html">back to home</a>
+  </main>
+
+  <footer>pretty curious</footer>
+
+</body>
+</html>
