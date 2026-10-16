@@ -287,45 +287,85 @@
 
   <footer>Gilded Lilies</footer>
 
-  <script>
-    const FEED = 'https://gildedliliesclub.substack.com/feed';
-    const box = document.getElementById('posts');
+  ```html
+<script>
+  const FEED = 'https://gildedliliesclub.substack.com/feed';
+  const box = document.getElementById('posts');
 
-    function strip(html) {
-      return new DOMParser().parseFromString(html, 'text/html').body.textContent.trim();
+  function stripHTML(html) {
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    return (doc.body.textContent || '').trim();
+  }
+
+  function showFallback() {
+    box.innerHTML = '';
+
+    const link = document.createElement('a');
+    link.className = 'link-pill';
+    link.href = 'https://gildedliliesclub.substack.com';
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = 'read the latest on substack';
+
+    box.appendChild(link);
+  }
+
+  async function loadPosts() {
+    try {
+      const response = await fetch(
+        'https://api.rss2json.com/v1/api.json?rss_url=' +
+        encodeURIComponent(FEED)
+      );
+
+      if (!response.ok) throw new Error('Feed unavailable');
+
+      const data = await response.json();
+
+      if (!data.items || !data.items.length) {
+        throw new Error('No posts found');
+      }
+
+      box.innerHTML = '';
+
+      // Show only the newest post
+      const post = data.items[0];
+
+      const card = document.createElement('a');
+      card.className = 'post-card';
+      card.href = post.link;
+      card.target = '_blank';
+      card.rel = 'noopener';
+
+      const date = document.createElement('span');
+      date.className = 'post-date';
+
+      const published = new Date(post.pubDate);
+      date.textContent = isNaN(published.getTime())
+        ? ''
+        : published.toLocaleDateString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          });
+
+      const title = document.createElement('h3');
+      title.textContent = post.title;
+
+      const excerpt = document.createElement('p');
+      const description = stripHTML(post.description || '')
+        .replace(/^Listen now \(\d+ mins?\)\s*\|\s*/, '');
+
+      excerpt.textContent = description.length > 220
+        ? description.slice(0, 220).trim() + '…'
+        : description;
+
+      card.append(date, title, excerpt);
+      box.appendChild(card);
+
+    } catch (error) {
+      showFallback();
     }
+  }
 
-    fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(FEED))
-      .then(r => r.json())
-      .then(data => {
-        if (!data.items || !data.items.length) throw new Error('no posts');
-        data.items.slice(0, 5).forEach(p => {
-          const card = document.createElement('a');
-          card.className = 'post-card';
-          card.href = p.link;
-          card.target = '_blank';
-          card.rel = 'noopener';
-
-          const date = document.createElement('span');
-          date.className = 'post-date';
-          date.textContent = new Date(p.pubDate.replace(' ', 'T') + 'Z')
-            .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-
-          const title = document.createElement('h3');
-          title.textContent = p.title;
-
-          const blurb = document.createElement('p');
-          const text = strip(p.description).replace(/^Listen now \(\d+ mins?\)\s*\|\s*/, '');
-          blurb.textContent = text.length > 140 ? text.slice(0, 140).trim() + '…' : text;
-
-          card.append(date, title, blurb);
-          box.appendChild(card);
-        });
-      })
-      .catch(() => {
-        box.innerHTML = '<a class="back" href="https://gildedliliesclub.substack.com" target="_blank" rel="noopener">read the latest on substack</a>';
-      });
-  </script>
-
-</body>
-</html>
+  loadPosts();
+</script>
