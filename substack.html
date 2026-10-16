@@ -279,6 +279,7 @@
     .post-cover {
       display: block;
       width: 100%;
+      height: auto;
       max-height: 370px;
       aspect-ratio: 16 / 9;
       object-fit: cover;
@@ -412,7 +413,6 @@
         'text/html'
       );
 
-      // Remove non-text elements before extracting the preview
       doc.querySelectorAll('script, style, iframe, img').forEach(el => el.remove());
 
       return (doc.body.textContent || '')
@@ -421,59 +421,76 @@
     }
 
     function findCoverImage(post) {
-      // Substack commonly provides a thumbnail in media:thumbnail
-      const thumbnail = post.getElementsByTagNameNS(
-        '*',
-        'thumbnail'
-      )[0];
+      // First, check the image URL added by the Cloudflare Worker.
+      const workerImage = getText(post, 'coverImage');
+
+      if (workerImage && /^https:\/\//i.test(workerImage)) {
+        return workerImage;
+      }
+
+      // Try RSS thumbnail fields.
+      const thumbnail = post.getElementsByTagNameNS('*', 'thumbnail')[0];
 
       if (thumbnail?.getAttribute('url')) {
         return thumbnail.getAttribute('url');
       }
 
-      // Some RSS feeds use media:content
-      const mediaContent = [...post.getElementsByTagNameNS(
-        '*',
-        'content'
-      )].find(el => {
-        const url = el.getAttribute('url');
-        const type = el.getAttribute('medium') || '';
-        return url && (type === 'image' || /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(url));
-      });
+      // Try media:content.
+      const mediaContent = [...post.getElementsByTagNameNS('*', 'content')]
+        .find(el => {
+          const url = el.getAttribute('url');
+          const type = el.getAttribute('medium') || '';
+
+          return url && (
+            type === 'image' ||
+            /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(url)
+          );
+        });
 
       if (mediaContent?.getAttribute('url')) {
         return mediaContent.getAttribute('url');
       }
 
-      // Substack feeds often expose the cover through enclosure
+      // Try an image enclosure.
       const enclosure = post.querySelector('enclosure[url]');
+
       if (enclosure) {
         const url = enclosure.getAttribute('url');
         const type = enclosure.getAttribute('type') || '';
-        if (type.startsWith('image/') || /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(url)) {
+
+        if (
+          type.startsWith('image/') ||
+          /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(url)
+        ) {
           return url;
         }
       }
 
-      // Last attempt: find the first image in the full article content
+      // Last attempt: look for an image in the article content.
       const encodedContent = post.getElementsByTagNameNS(
         '*',
         'encoded'
       )[0]?.textContent || '';
 
-      const htmlContent = post.querySelector('description')?.textContent || '';
-      const source = encodedContent || htmlContent;
-      const doc = new DOMParser().parseFromString(source, 'text/html');
+      const description = getText(post, 'description');
+      const doc = new DOMParser().parseFromString(
+        encodedContent || description,
+        'text/html'
+      );
+
       const image = doc.querySelector('img');
 
-      return image?.getAttribute('src') || image?.getAttribute('data-src') || '';
+      return image?.getAttribute('src') ||
+        image?.getAttribute('data-src') ||
+        '';
     }
 
     function showFallback() {
       box.replaceChildren();
 
       const message = document.createElement('p');
-      message.textContent = 'The latest essay could not load right now. You can still read it on Substack.';
+      message.textContent =
+        'The latest essay could not load right now. You can still read it on Substack.';
 
       const link = document.createElement('a');
       link.className = 'read-more';
@@ -487,9 +504,7 @@
 
     async function loadPosts() {
       try {
-        const response = await fetch(FEED_ENDPOINT, {
-          headers: { 'Accept': 'application/rss+xml, application/xml, text/xml' }
-        });
+        const response = await fetch(FEED_ENDPOINT);
 
         if (!response.ok) {
           throw new Error('Feed unavailable');
@@ -532,16 +547,16 @@
         let excerptText = cleanHTML(descriptionText)
           .replace(/^Listen now \(\d+ mins?\)\s*\|\s*/i, '');
 
-        // Show a longer preview while keeping the card readable
         const maxLength = 650;
+
         if (excerptText.length > maxLength) {
           excerptText = excerptText.slice(0, maxLength).trim() + '…';
         }
 
-        const coverUrl = findCoverImage(post);
-
         const card = document.createElement('article');
         card.className = 'post-card';
+
+        const coverUrl = findCoverImage(post);
 
         if (coverUrl) {
           const image = document.createElement('img');
@@ -549,7 +564,6 @@
           image.src = coverUrl;
           image.alt = 'Cover image for ' + titleText;
           image.loading = 'lazy';
-          image.referrerPolicy = 'no-referrer';
 
           image.addEventListener('error', () => {
             image.remove();
@@ -573,7 +587,8 @@
 
         const excerpt = document.createElement('p');
         excerpt.className = 'post-excerpt';
-        excerpt.textContent = excerptText || 'Read the latest essay from Gilded Lilies.';
+        excerpt.textContent =
+          excerptText || 'Read the latest essay from Gilded Lilies.';
 
         const readMore = document.createElement('a');
         readMore.className = 'read-more';
