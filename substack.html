@@ -1,371 +1,496 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-RTB1JZ61DR"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RTB1JZ61DR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RTB1JZ61DR');
+  </script>
 
-  gtag('config', 'G-RTB1JZ61DR');
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>substack | Gilded Lilies</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --pink-deep: #c8127a;
-    --pink-bright: #ff86c4;
-    --pink-pale: #ffc3e0;
-    --pink-pill: #f6a9cf;
-    --pink-pill-hover: #f592c3;
-    --maroon: #7a2a20;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>substack | Gilded Lilies</title>
 
-  * { box-sizing: border-box; }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 
-  html, body {
-    margin: 0;
-    padding: 0;
-    background: var(--pink-bright);
-    font-family: 'Lora', serif;
-    color: var(--maroon);
-    -webkit-font-smoothing: antialiased;
-  }
+  <style>
+    :root {
+      --pink-deep: #c8127a;
+      --pink-bright: #ff86c4;
+      --pink-pale: #ffc3e0;
+      --pink-pill: #f6a9cf;
+      --pink-pill-hover: #f592c3;
+      --maroon: #7a2a20;
+    }
 
-  a { text-decoration: none; }
+    * {
+      box-sizing: border-box;
+    }
 
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--pink-bright);
+      font-family: 'Lora', serif;
+      color: var(--maroon);
+      -webkit-font-smoothing: antialiased;
+    }
 
-  /* ---------- PAGE TRANSITIONS ---------- */
-  @view-transition { navigation: auto; }
+    a {
+      text-decoration: none;
+    }
 
-  .hero { view-transition-name: hero; }
-  .site-nav { view-transition-name: nav; }
-  .hero-title { view-transition-name: title; }
-  .hero-tagline { view-transition-name: tagline; }
-  .uploads, .suggest, .substack { view-transition-name: content; }
+    /* PAGE TRANSITIONS */
+    @view-transition {
+      navigation: auto;
+    }
 
-  .site-nav a[aria-current="page"]::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: 999px;
-    background: var(--pink-pill);
-    view-transition-name: navpill;
-  }
+    .hero {
+      view-transition-name: hero;
+    }
 
-  ::view-transition-group(hero) { z-index: 1; overflow: clip; }
-  ::view-transition-group(content) { z-index: 2; }
-  ::view-transition-group(navpill) { z-index: 3; }
-  ::view-transition-group(nav),
-  ::view-transition-group(title),
-  ::view-transition-group(tagline) { z-index: 4; }
+    .site-nav {
+      view-transition-name: nav;
+    }
 
-  ::view-transition-group(*) {
-    animation-duration: 0.8s;
-    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
-  }
+    .hero-title {
+      view-transition-name: title;
+    }
 
-  ::view-transition-old(hero),
-  ::view-transition-new(hero) { height: 100%; object-fit: cover; }
+    .hero-tagline {
+      view-transition-name: tagline;
+    }
 
-  ::view-transition-old(navpill),
-  ::view-transition-new(navpill) { height: 100%; }
+    .uploads, .suggest, .substack {
+      view-transition-name: content;
+    }
 
-  ::view-transition-old(content) { animation: vt-out 0.25s ease both; }
-  ::view-transition-new(content) { animation: vt-in 0.5s 0.35s ease both; }
+    .site-nav a[aria-current="page"]::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: 999px;
+      background: var(--pink-pill);
+      view-transition-name: navpill;
+    }
 
-  @keyframes vt-out { to { opacity: 0; } }
-  @keyframes vt-in { from { opacity: 0; } }
+    ::view-transition-group(hero) {
+      z-index: 1;
+      overflow: clip;
+    }
 
-  @media (prefers-reduced-motion: reduce) {
-    @view-transition { navigation: none; }
-  }
+    ::view-transition-group(content) {
+      z-index: 2;
+    }
 
-  /* ---------- TOP NAV ---------- */
-  .site-nav {
-    position: absolute;
-    top: 1.25rem;
-    left: 0;
-    right: 0;
-    z-index: 3;
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
+    ::view-transition-group(navpill) {
+      z-index: 3;
+    }
 
-  .site-nav a {
-    position: relative;
-    z-index: 0;
-    color: #ffffff;
-    font-size: 0.95rem;
-    padding: 0.45rem 1.1rem;
-    border-radius: 999px;
-    text-shadow: 0 1px 4px rgba(122,42,32,0.45);
-    transition: background 0.15s ease;
-  }
+    ::view-transition-group(nav),
+    ::view-transition-group(title),
+    ::view-transition-group(tagline) {
+      z-index: 4;
+    }
 
-  .site-nav a:hover { background: rgba(255,255,255,0.22); }
+    ::view-transition-group(*) {
+      animation-duration: 0.8s;
+      animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+    }
 
-  .site-nav a[aria-current="page"] {
-    color: var(--maroon);
-    text-shadow: none;
-  }
+    ::view-transition-old(hero),
+    ::view-transition-new(hero) {
+      height: 100%;
+      object-fit: cover;
+    }
 
-  .site-nav a[aria-current="page"]:hover { background: none; }
+    ::view-transition-old(navpill),
+    ::view-transition-new(navpill) {
+      height: 100%;
+    }
 
-  .site-nav a:focus-visible { outline: 2px solid #ffffff; outline-offset: 2px; }
+    ::view-transition-old(content) {
+      animation: vt-out 0.25s ease both;
+    }
 
-  /* ---------- HEADER ---------- */
-  .hero {
-    position: relative;
-    overflow: hidden;
-    background:
-      linear-gradient(160deg, rgba(122,42,32,0.34) 0%, rgba(122,42,32,0.22) 45%, rgba(122,42,32,0.4) 100%),
-      url('assets/hero-bg.jpg');
-    background-size: cover;
-    background-position: center 35%;
-    padding: 5rem 1.5rem 2.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+    ::view-transition-new(content) {
+      animation: vt-in 0.5s 0.35s ease both;
+    }
 
-  .hero-title {
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: 700;
-    font-stretch: condensed;
-    transform: scaleX(0.72);
-    transform-origin: center;
-    font-size: clamp(3rem, 11vw, 6rem);
-    color: #ffffff;
-    margin: 0;
-    letter-spacing: -0.01em;
-    line-height: 0.95;
-  }
+    @keyframes vt-out {
+      to {
+        opacity: 0;
+      }
+    }
 
-  .hero-tagline {
-    font-style: italic;
-    font-size: clamp(0.95rem, 2.4vw, 1.15rem);
-    color: #ffe6f2;
-    margin: 0.9rem 0 0;
-  }
+    @keyframes vt-in {
+      from {
+        opacity: 0;
+      }
+    }
 
-  /* ---------- SUBSTACK SECTION ---------- */
-  .substack {
-    padding: 3rem 1.5rem 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+    @media (prefers-reduced-motion: reduce) {
+      @view-transition {
+        navigation: none;
+      }
+    }
 
-  .substack h2 {
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: 700;
-    font-stretch: condensed;
-    transform: scaleX(0.75);
-    display: inline-block;
-    font-size: clamp(2rem, 5.5vw, 2.9rem);
-    color: var(--maroon);
-    margin: 0 0 0.75rem;
-  }
+    /* TOP NAVIGATION */
+    .site-nav {
+      position: absolute;
+      top: 1.25rem;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
 
-  .substack-intro {
-    max-width: 440px;
-    margin: 0 0 1rem;
-    line-height: 1.6;
-  }
+    .site-nav a {
+      position: relative;
+      z-index: 0;
+      color: #ffffff;
+      font-size: 0.95rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 999px;
+      text-shadow: 0 1px 4px rgba(122,42,32,0.45);
+      transition: background 0.15s ease;
+    }
 
-  .link-pill {
-    display: block;
-    width: 100%;
-    max-width: 260px;
-    margin-top: 1.5rem;
-    padding: 1rem 1.25rem;
-    background: var(--pink-pill);
-    color: var(--maroon);
-    font-family: 'Lora', serif;
-    font-size: 1.05rem;
-    border: 0;
-    cursor: pointer;
-    border-radius: 999px;
-    text-align: center;
-    transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-    box-shadow: 0 2px 0 rgba(122,42,32,0.08);
-  }
+    .site-nav a:hover {
+      background: rgba(255,255,255,0.22);
+    }
 
-  .link-pill:hover {
-    background: var(--pink-pill-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(122,42,32,0.18);
-  }
+    .site-nav a[aria-current="page"] {
+      color: var(--maroon);
+      text-shadow: none;
+    }
 
-  .link-pill:active { transform: translateY(0); }
+    .site-nav a[aria-current="page"]:hover {
+      background: none;
+    }
 
-  /* ---------- LATEST POSTS ---------- */
-  .posts {
-    width: 100%;
-    max-width: 560px;
-    margin-top: 2.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    text-align: left;
-  }
+    .site-nav a:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
 
-  .post-card {
-    display: block;
-    padding: 1.25rem 1.5rem;
-    background: var(--pink-pale);
-    border: 1px solid #c76e97;
-    border-radius: 18px;
-    color: var(--maroon);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
+    /* HEADER */
+    .hero {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          160deg,
+          rgba(122,42,32,0.34) 0%,
+          rgba(122,42,32,0.22) 45%,
+          rgba(122,42,32,0.4) 100%
+        ),
+        url('assets/hero-bg.jpg');
+      background-size: cover;
+      background-position: center 35%;
+      padding: 5rem 1.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
 
-  .post-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(122,42,32,0.18);
-  }
+    .hero-title {
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 700;
+      font-stretch: condensed;
+      transform: scaleX(0.72);
+      transform-origin: center;
+      font-size: clamp(3rem, 11vw, 6rem);
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: -0.01em;
+      line-height: 0.95;
+    }
 
-  .post-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.25rem;
-    margin: 0.25rem 0 0.5rem;
-  }
+    .hero-tagline {
+      font-style: italic;
+      font-size: clamp(0.95rem, 2.4vw, 1.15rem);
+      color: #ffe6f2;
+      margin: 0.9rem 0 0;
+    }
 
-  .post-card p { margin: 0; line-height: 1.5; font-size: 0.95rem; }
-  .post-date { font-size: 0.8rem; font-style: italic; color: #a44a75; }
+    /* SUBSTACK SECTION */
+    .substack {
+      padding: 3rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
 
-  .back {
-    display: inline-block;
-    margin-top: 2.5rem;
-    color: var(--maroon);
-    font-style: italic;
-    border-bottom: 1px solid var(--maroon);
-  }
+    .substack h2 {
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 700;
+      font-stretch: condensed;
+      transform: scaleX(0.75);
+      display: inline-block;
+      font-size: clamp(2rem, 5.5vw, 2.9rem);
+      color: var(--maroon);
+      margin: 0 0 0.75rem;
+    }
 
-  footer {
-    text-align: center;
-    padding: 1.5rem;
-    font-size: 0.85rem;
-    color: #a44a75;
-  }
-</style>
+    .substack-intro {
+      max-width: 440px;
+      margin: 0 0 1rem;
+      line-height: 1.6;
+    }
+
+    .link-pill {
+      display: block;
+      width: 100%;
+      max-width: 260px;
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--pink-pill);
+      color: var(--maroon);
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      text-align: center;
+      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 2px 0 rgba(122,42,32,0.08);
+    }
+
+    .link-pill:hover {
+      background: var(--pink-pill-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(122,42,32,0.18);
+    }
+
+    .link-pill:active {
+      transform: translateY(0);
+    }
+
+    /* LATEST SUBSTACK POST */
+    .posts {
+      width: 100%;
+      max-width: 560px;
+      margin-top: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .post-card {
+      display: block;
+      padding: 1.25rem 1.5rem;
+      background: var(--pink-pale);
+      border: 1px solid #c76e97;
+      border-radius: 18px;
+      color: var(--maroon);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(122,42,32,0.18);
+    }
+
+    .post-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      margin: 0.25rem 0 0.5rem;
+    }
+
+    .post-card p {
+      margin: 0;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .post-date {
+      font-size: 0.8rem;
+      font-style: italic;
+      color: #a44a75;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 2.5rem;
+      color: var(--maroon);
+      font-style: italic;
+      border-bottom: 1px solid var(--maroon);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.85rem;
+      color: #a44a75;
+    }
+  </style>
 </head>
-<body>
 
+<body>
   <header class="hero">
     <nav class="site-nav" aria-label="main">
       <a href="index.html">home</a>
       <a href="substack.html" aria-current="page">substack</a>
       <a href="suggest.html">suggest a video</a>
     </nav>
+
     <h1 class="hero-title">Gilded Lilies</h1>
     <p class="hero-tagline">we gild the lily on purpose</p>
   </header>
 
   <main class="substack">
     <h2>read the substack</h2>
-    <p class="substack-intro">essays, analysis, and gilded lilies delivered to your inbox.</p>
 
-    <a class="link-pill" href="https://gildedliliesclub.substack.com/subscribe"
-       target="_blank" rel="noopener">subscribe</a>
+    <p class="substack-intro">
+      essays, analysis, and gilded lilies delivered to your inbox.
+    </p>
 
-    <div id="posts" class="posts" aria-live="polite"></div>
+    <a
+      class="link-pill"
+      href="https://gildedliliesclub.substack.com/subscribe"
+      target="_blank"
+      rel="noopener noreferrer"
+    >subscribe</a>
+
+    <div id="posts" class="posts" aria-live="polite">
+      <p>loading the latest post...</p>
+    </div>
 
     <a class="back" href="index.html">back to home</a>
   </main>
 
   <footer>Gilded Lilies</footer>
 
-  ```html
-<script>
-  const FEED = 'https://gildedliliesclub.substack.com/feed';
-  const box = document.getElementById('posts');
+  <script>
+    // Cloudflare Worker that serves your Substack RSS feed
+    const FEED_ENDPOINT =
+      'https://gilded-lilies-feed.prettycuriousclub.workers.dev';
 
-  function stripHTML(html) {
-    const doc = new DOMParser().parseFromString(html, 'text/html');
-    return (doc.body.textContent || '').trim();
-  }
+    const box = document.getElementById('posts');
 
-  function showFallback() {
-    box.innerHTML = '';
-
-    const link = document.createElement('a');
-    link.className = 'link-pill';
-    link.href = 'https://gildedliliesclub.substack.com';
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.textContent = 'read the latest on substack';
-
-    box.appendChild(link);
-  }
-
-  async function loadPosts() {
-    try {
-      const response = await fetch(
-        'https://api.rss2json.com/v1/api.json?rss_url=' +
-        encodeURIComponent(FEED)
+    // Convert HTML descriptions into readable text
+    function cleanHTML(html) {
+      const doc = new DOMParser().parseFromString(
+        html || '',
+        'text/html'
       );
 
-      if (!response.ok) throw new Error('Feed unavailable');
-
-      const data = await response.json();
-
-      if (!data.items || !data.items.length) {
-        throw new Error('No posts found');
-      }
-
-      box.innerHTML = '';
-
-      // Show only the newest post
-      const post = data.items[0];
-
-      const card = document.createElement('a');
-      card.className = 'post-card';
-      card.href = post.link;
-      card.target = '_blank';
-      card.rel = 'noopener';
-
-      const date = document.createElement('span');
-      date.className = 'post-date';
-
-      const published = new Date(post.pubDate);
-      date.textContent = isNaN(published.getTime())
-        ? ''
-        : published.toLocaleDateString('en-US', {
-            month: 'long',
-            day: 'numeric',
-            year: 'numeric'
-          });
-
-      const title = document.createElement('h3');
-      title.textContent = post.title;
-
-      const excerpt = document.createElement('p');
-      const description = stripHTML(post.description || '')
-        .replace(/^Listen now \(\d+ mins?\)\s*\|\s*/, '');
-
-      excerpt.textContent = description.length > 220
-        ? description.slice(0, 220).trim() + '…'
-        : description;
-
-      card.append(date, title, excerpt);
-      box.appendChild(card);
-
-    } catch (error) {
-      showFallback();
+      return (doc.body.textContent || '').trim();
     }
-  }
 
-  loadPosts();
-</script>
+    // Show a working Substack link if the feed cannot load
+    function showFallback() {
+      box.replaceChildren();
+
+      const link = document.createElement('a');
+      link.className = 'post-card';
+      link.href = 'https://gildedliliesclub.substack.com';
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = 'Read the latest on Substack →';
+
+      box.appendChild(link);
+    }
+
+    async function loadPosts() {
+      try {
+        const response = await fetch(FEED_ENDPOINT);
+
+        if (!response.ok) {
+          throw new Error('Feed unavailable');
+        }
+
+        const xmlText = await response.text();
+
+        const xml = new DOMParser().parseFromString(
+          xmlText,
+          'application/xml'
+        );
+
+        if (xml.querySelector('parsererror')) {
+          throw new Error('Invalid RSS feed');
+        }
+
+        // Find the newest Substack post
+        const post = xml.querySelector('channel > item');
+
+        if (!post) {
+          throw new Error('No posts found');
+        }
+
+        const titleText =
+          post.querySelector('title')?.textContent?.trim() || 'Latest post';
+
+        const linkText =
+          post.querySelector('link')?.textContent?.trim() || '';
+
+        const dateText =
+          post.querySelector('pubDate')?.textContent?.trim() || '';
+
+        const descriptionText =
+          post.querySelector('description')?.textContent || '';
+
+        if (!linkText) {
+          throw new Error('Post link missing');
+        }
+
+        // Create the post card safely
+        const card = document.createElement('a');
+        card.className = 'post-card';
+        card.href = linkText;
+        card.target = '_blank';
+        card.rel = 'noopener noreferrer';
+
+        const date = document.createElement('span');
+        date.className = 'post-date';
+
+        const published = new Date(dateText);
+
+        date.textContent = Number.isNaN(published.getTime())
+          ? ''
+          : published.toLocaleDateString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric'
+            });
+
+        const title = document.createElement('h3');
+        title.textContent = titleText;
+
+        const excerpt = document.createElement('p');
+
+        const description = cleanHTML(descriptionText)
+          .replace(/^Listen now \(\d+ mins?\)\s*\|\s*/, '');
+
+        excerpt.textContent = description.length > 220
+          ? description.slice(0, 220).trim() + '…'
+          : description;
+
+        card.append(date, title, excerpt);
+
+        box.replaceChildren(card);
+
+      } catch (error) {
+        console.error('Unable to load Substack post:', error);
+        showFallback();
+      }
+    }
+
+    loadPosts();
+  </script>
+</body>
+</html>
