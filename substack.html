@@ -13,9 +13,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>substack | Gilded Lilies</title>
-  <meta name="description" content="The Gilded Lilies substack: essays, history tangents, and a heads-up whenever a new video or podcast drops.">
+  <meta name="description" content="The Gilded Lilies substack: essays, show notes, history and travel guides, and a heads-up whenever a new video or podcast drops.">
   <meta property="og:title" content="substack | Gilded Lilies">
-  <meta property="og:description" content="essays, history tangents, and first word on every new episode.">
+  <meta property="og:description" content="essays, show notes, history and travel guides, and first word on every new episode.">
   <meta property="og:type" content="website">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -298,7 +298,7 @@
 
     /* LATEST ARTICLE PREVIEW */
     .posts-label {
-      margin: 3.5rem 0 0;
+      margin: 2rem 0 0;
       font-family: 'Playfair Display', serif;
       font-style: italic;
       font-size: 1.15rem;
@@ -307,7 +307,7 @@
     .posts {
       width: 100%;
       max-width: 650px;
-      margin-top: 1.25rem;
+      margin-top: 1rem;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
@@ -430,7 +430,7 @@
     <h2>the long version</h2>
 
     <p class="substack-intro">
-      the videos, with more room to spiral. subscribe for essays, history tangents, and first word when a new video or podcast drops.
+      the videos, with more room to spiral. subscribe for essays, show notes, history tangents, and first word when a new video or podcast drops.
     </p>
 
     <div class="perks">
@@ -439,12 +439,12 @@
         <p>a note in your inbox whenever a new video or podcast episode goes live.</p>
       </div>
       <div class="perk">
-        <h3>essays &amp; analysis</h3>
-        <p>longer takes on film, tv, and everything shiny, written for reading, not watching.</p>
+        <h3>essays &amp; show notes</h3>
+        <p>longer takes on film, tv, and everything shiny, plus the notes behind every episode.</p>
       </div>
       <div class="perk">
-        <h3>history bits</h3>
-        <p>the tangents, scandals, and footnotes that didn't fit in the video.</p>
+        <h3>history, fashion &amp; travel</h3>
+        <p>historical travel guides, fashion deep dives, and the tangents that didn't fit in the video.</p>
       </div>
     </div>
 
@@ -456,10 +456,10 @@
     >get it in your inbox</a>
     <p class="subscribe-note">delivered by substack. unsubscribe anytime.</p>
 
-    <p class="posts-label">the latest essay</p>
+    <p class="posts-label">latest from the substack</p>
 
-    <section id="posts" class="posts" aria-live="polite" aria-label="Latest Substack article">
-      <p>loading the latest essay...</p>
+    <section id="posts" class="posts" aria-live="polite" aria-label="Latest Substack post">
+      <p>loading the latest post...</p>
     </section>
 
     <a class="back" href="index.html">back to the gold</a>
@@ -561,7 +561,7 @@
 
       const message = document.createElement('p');
       message.textContent =
-        "the latest essay didn't load. you can still read it on substack.";
+        "the latest post didn't load. you can still read it on substack.";
 
       const link = document.createElement('a');
       link.className = 'read-more';
@@ -597,7 +597,7 @@
           throw new Error('No posts found');
         }
 
-        const titleText = getText(post, 'title') || 'Latest essay';
+        const titleText = getText(post, 'title') || 'Latest post';
         const linkText = getText(post, 'link');
         const dateText = getText(post, 'pubDate');
         const descriptionText = getText(post, 'description');
@@ -659,14 +659,14 @@
         const excerpt = document.createElement('p');
         excerpt.className = 'post-excerpt';
         excerpt.textContent =
-          excerptText || 'Read the latest essay from Gilded Lilies.';
+          excerptText || 'Read the latest post from Gilded Lilies.';
 
         const readMore = document.createElement('a');
         readMore.className = 'read-more';
         readMore.href = linkText;
         readMore.target = '_blank';
         readMore.rel = 'noopener noreferrer';
-        readMore.textContent = 'read the full article →';
+        readMore.textContent = 'read the full post →';
 
         content.append(title, excerpt, readMore);
         card.appendChild(content);
