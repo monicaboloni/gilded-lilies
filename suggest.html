@@ -13,6 +13,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>suggest a video | Gilded Lilies</title>
+<meta name="description" content="Got a movie, show, historical figure, or trend you want Gilded Lilies to dig into? Send us your idea for a video.">
+<meta property="og:title" content="suggest a video | Gilded Lilies">
+<meta property="og:description" content="tell us what to overanalyze next.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -184,9 +188,9 @@
   }
 
   .suggest-intro {
-    max-width: 440px;
+    max-width: 460px;
     margin: 0 0 2rem;
-    line-height: 1.6;
+    line-height: 1.7;
   }
 
   .suggest-form {
@@ -253,6 +257,13 @@
 
   .suggest-form .link-pill { margin-top: 1rem; }
 
+  .form-note {
+    margin: 0.25rem 0 0 1rem;
+    font-size: 0.82rem;
+    font-style: italic;
+    color: #a44a75;
+  }
+
   .fs-msg { font-size: 0.9rem; margin-left: 1rem; }
   .fs-msg:empty { display: none; }
   .fs-success { color: var(--maroon); font-weight: 500; text-align: center; margin: 0.75rem 0 0; }
@@ -283,22 +294,22 @@
       <a href="suggest.html" aria-current="page">suggest a video</a>
     </nav>
     <h1 class="hero-title">Gilded Lilies</h1>
-    <p class="hero-tagline">we gild the lily on purpose</p>
+    <p class="hero-tagline">media, history, and the glitter on top</p>
   </header>
 
   <main class="suggest">
-    <h2>suggest a video</h2>
-    <p class="suggest-intro">got a topic you want us to dig into? drop it below. add your name if you want a shoutout.</p>
+    <h2>feed the obsession</h2>
+    <p class="suggest-intro">a movie everyone's wrong about? a historical figure who deserves better? a trend that needs a closer look? tell us what to overanalyze next.</p>
 
     <form id="suggest-form" class="suggest-form">
-      <label for="suggestion">your idea</label>
+      <label for="suggestion">what should we dig into?</label>
       <textarea id="suggestion" name="suggestion" rows="5" required data-fs-field
-        placeholder="what should we get curious about next?"></textarea>
+        placeholder="a film, a show, a person, a scandal, a trend..."></textarea>
       <span class="fs-msg" data-fs-error="suggestion"></span>
 
-      <label for="name">name for credit (optional)</label>
+      <label for="name">your name or handle (optional)</label>
       <input type="text" id="name" name="name" data-fs-field
-        placeholder="how should we credit you?">
+        placeholder="if you'd like a shoutout">
       <span class="fs-msg" data-fs-error="name"></span>
 
       <label for="email">email (optional)</label>
@@ -309,16 +320,17 @@
       <!-- spam honeypot -->
       <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
 
-      <button type="submit" class="link-pill" data-fs-submit-btn>send it</button>
+      <button type="submit" class="link-pill" data-fs-submit-btn>gild it</button>
+      <p class="form-note">we read every suggestion, even if it takes us a while to get to it.</p>
 
       <div class="fs-msg fs-success" data-fs-success></div>
       <div class="fs-msg fs-fail" data-fs-error></div>
     </form>
 
-    <a class="back" href="index.html">back to home</a>
+    <a class="back" href="index.html">back to the gold</a>
   </main>
 
-  <footer>Gilded Lilies</footer>
+  <footer>gilded lilies · media, history &amp; the glitter on top</footer>
 
   <script>
     window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
