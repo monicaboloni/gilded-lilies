@@ -212,14 +212,8 @@
 
   /* ---------- UPLOAD SECTION ---------- */
   .uploads {
-    /* solid pink behind the video, then fades to yellow in the space below it */
-    background: linear-gradient(to bottom,
-      var(--pink-bright) 0%,
-      var(--pink-bright) calc(100% - 10rem),
-      color-mix(in srgb, var(--pink-bright) 70%, var(--yellow)) calc(100% - 7.5rem),
-      color-mix(in srgb, var(--pink-bright) 30%, var(--yellow)) calc(100% - 3.5rem),
-      var(--yellow) 100%);
-    padding: 3.5rem 1.5rem 12rem;
+    background: var(--pink-bright);
+    padding: 3.5rem 1.5rem 7rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -267,9 +261,27 @@
   .about {
     background: var(--yellow);
     color: var(--pink-text);
-    padding: 4rem 1.5rem 4.5rem;
+    padding: 2rem 1.5rem 4.5rem;
     display: flex;
     justify-content: center;
+  }
+
+  /* wavy edge where the yellow section meets the pink one */
+  .about { position: relative; }
+
+  .about::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -39px;
+    height: 40px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 40' preserveAspectRatio='none'%3E%3Cpath d='M0,20 C130,2 270,2 400,20 S670,38 800,20 L800,40 L0,40 Z' fill='%23f7e26b'/%3E%3C/svg%3E") repeat-x bottom / 800px 40px;
+    pointer-events: none;
+  }
+
+  @media (max-width: 720px) {
+    .about::before { background-size: 480px 40px; }
   }
 
   .about-inner {
@@ -356,7 +368,7 @@
   }
 
   @media (max-width: 720px) {
-    .about { padding: 3rem 1.25rem 3.5rem; }
+    .about { padding: 1.5rem 1.25rem 3.5rem; }
     .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
     .about-text { text-align: center; }
     .about h2 { transform-origin: center; }
