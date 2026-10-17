@@ -32,6 +32,7 @@
     --pink-pill-hover: #f592c3;
     --maroon: #7a2a20;
     --cream: #fff6f2;
+    --yellow: #f7e26b;
   }
 
   * { box-sizing: border-box; }
@@ -255,6 +256,105 @@
     border: 0;
   }
 
+  /* ---------- ABOUT SECTION ---------- */
+  .about {
+    background: var(--yellow);
+    padding: 4rem 1.5rem 4.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .about-inner {
+    width: 100%;
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .about h2 {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    font-stretch: condensed;
+    transform: scaleX(0.75);
+    transform-origin: left center;
+    display: inline-block;
+    font-size: clamp(2rem, 5.5vw, 2.9rem);
+    color: var(--maroon);
+    margin: 0 0 1.25rem;
+  }
+
+  .about-text p {
+    margin: 0 0 1rem;
+    line-height: 1.75;
+    font-size: 1.02rem;
+  }
+
+  .about-list-label {
+    margin: 1.5rem 0 0.5rem !important;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  .about-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .about-list li {
+    position: relative;
+    padding-left: 1.4rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.55;
+  }
+
+  .about-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--pink-deep);
+  }
+
+  .podcast-card {
+    text-align: center;
+  }
+
+  .podcast-label {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    margin: 0 0 0.9rem;
+  }
+
+  .podcast-cover {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin: 0 auto;
+    border-radius: 18px;
+    border: 1px solid #c76e97;
+    background: var(--pink-pill);
+    box-shadow: 0 8px 22px rgba(122,42,32,0.2);
+  }
+
+  .podcast-card .link-pill {
+    max-width: 200px;
+    margin: 1.4rem auto 0;
+  }
+
+  @media (max-width: 720px) {
+    .about { padding: 3rem 1.25rem 3.5rem; }
+    .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-text { text-align: center; }
+    .about h2 { transform-origin: center; }
+    .about-list { text-align: left; max-width: 340px; margin: 0 auto; }
+  }
+
   footer {
     text-align: center;
     padding: 1.5rem;
@@ -298,6 +398,30 @@
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen>
         </iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="about-inner">
+      <div class="about-text">
+        <h2>what is gilded lilies?</h2>
+        <p>hi, i'm monica. gilded lilies is a youtube channel and podcast about the media we love, the history we're told, and the glitter piled on top.</p>
+        <p>to gild the lily is to decorate something already beautiful until it's excessive. that's what movies, monarchies, and magazine covers do best, so we look closely: is there substance under the shine, or is the shine the whole point?</p>
+
+        <p class="about-list-label">this is for you if you</p>
+        <ul class="about-list">
+          <li>love a movie you can't stop thinking about</li>
+          <li>fall down historical rabbit holes</li>
+          <li>whisper "that's not what happened" at period dramas</li>
+          <li>want some substance with your shine</li>
+        </ul>
+      </div>
+
+      <div class="podcast-card">
+        <p class="podcast-label">the podcast</p>
+        <img class="podcast-cover" src="assets/podcast-cover.png" alt="Gilded Lilies podcast cover art">
+        <a class="link-pill" href="https://open.spotify.com/show/033FQmAxPfjCCuWHq2iEXQ" target="_blank" rel="noopener">listen</a>
       </div>
     </div>
   </section>
