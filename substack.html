@@ -491,6 +491,15 @@
         .trim();
     }
 
+    // Podcast episodes carry an audio enclosure (audio/mpeg).
+    // Written posts carry an image enclosure instead.
+    function isPodcast(item) {
+      const type = item.querySelector('enclosure')?.getAttribute('type') || '';
+      const desc = getText(item, 'description');
+
+      return type.startsWith('audio/') || /^Listen now/i.test(desc);
+    }
+
     function findCoverImage(post) {
       // First, check the image URL added by the Cloudflare Worker.
       const workerImage = getText(post, 'coverImage');
@@ -591,10 +600,12 @@
           throw new Error('Invalid RSS feed');
         }
 
-        const post = xml.querySelector('channel > item');
+        // Newest item that is NOT a podcast episode.
+        const post = [...xml.querySelectorAll('channel > item')]
+          .find(item => !isPodcast(item));
 
         if (!post) {
-          throw new Error('No posts found');
+          throw new Error('No written posts found');
         }
 
         const titleText = getText(post, 'title') || 'Latest post';
