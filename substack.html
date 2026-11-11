@@ -456,232 +456,34 @@
     >get it in your inbox</a>
     <p class="subscribe-note">delivered by substack. unsubscribe anytime.</p>
 
-    <p class="posts-label">latest from the substack</p>
+    <p class="posts-label">featured on the substack</p>
 
-    <section id="posts" class="posts" aria-live="polite" aria-label="Latest Substack post">
-      <p>loading the latest post...</p>
+    <section id="posts" class="posts" aria-label="Featured Substack post">
+      <article class="post-card">
+        <img
+          class="post-cover"
+          src="https://substackcdn.com/image/fetch/$s_!oL-S!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,$fp_!0.5:0.4273!/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb3aa14e4-cabe-4f07-9164-971cb81a716d_1440x1262.png"
+          alt="Cover image for Sexpionage: The Profumo Affair"
+          loading="lazy"
+          onerror="this.remove()"
+        >
+        <div class="post-content">
+          <span class="post-date">November 11, 2026</span>
+          <h3>Sexpionage: The Profumo Affair</h3>
+          <p class="post-excerpt">Christine Keeler, the Profumo Affair and the very inconvenient business of sharing a mistress with a Russian spy.</p>
+          <a
+            class="read-more"
+            href="https://gildedliliesclub.substack.com/p/sexpionage-the-profumo-affair"
+            target="_blank"
+            rel="noopener noreferrer"
+          >read the full post →</a>
+        </div>
+      </article>
     </section>
 
     <a class="back" href="index.html">back to the gold</a>
   </main>
 
   <footer>gilded lilies · media, history &amp; the glitter on top</footer>
-
-  <script>
-    const FEED_ENDPOINT =
-      'https://gilded-lilies-feed.prettycuriousclub.workers.dev';
-
-    const box = document.getElementById('posts');
-    const SUBSTACK_HOME = 'https://gildedliliesclub.substack.com';
-
-    // The post shown on this page. To feature a different post, change both values.
-    const PINNED_POST_URL =
-      'https://gildedliliesclub.substack.com/p/sexpionage-the-profumo-affair';
-    const PINNED_SLUG = '/p/sexpionage-the-profumo-affair';
-
-    function getText(element, selector) {
-      return element.querySelector(selector)?.textContent?.trim() || '';
-    }
-
-    function cleanHTML(html) {
-      const doc = new DOMParser().parseFromString(
-        html || '',
-        'text/html'
-      );
-
-      doc.querySelectorAll('script, style, iframe, img').forEach(el => el.remove());
-
-      return (doc.body.textContent || '')
-        .replace(/\s+/g, ' ')
-        .trim();
-    }
-
-    function findCoverImage(post) {
-      // First, check the image URL added by the Cloudflare Worker.
-      const workerImage = getText(post, 'coverImage');
-
-      if (workerImage && /^https:\/\//i.test(workerImage)) {
-        return workerImage;
-      }
-
-      // Try RSS thumbnail fields.
-      const thumbnail = post.getElementsByTagNameNS('*', 'thumbnail')[0];
-
-      if (thumbnail?.getAttribute('url')) {
-        return thumbnail.getAttribute('url');
-      }
-
-      // Try media:content.
-      const mediaContent = [...post.getElementsByTagNameNS('*', 'content')]
-        .find(el => {
-          const url = el.getAttribute('url');
-          const type = el.getAttribute('medium') || '';
-
-          return url && (
-            type === 'image' ||
-            /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(url)
-          );
-        });
-
-      if (mediaContent?.getAttribute('url')) {
-        return mediaContent.getAttribute('url');
-      }
-
-      // Try an image enclosure.
-      const enclosure = post.querySelector('enclosure[url]');
-
-      if (enclosure) {
-        const url = enclosure.getAttribute('url');
-        const type = enclosure.getAttribute('type') || '';
-
-        if (
-          type.startsWith('image/') ||
-          /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(url)
-        ) {
-          return url;
-        }
-      }
-
-      // Last attempt: look for an image in the article content.
-      const encodedContent = post.getElementsByTagNameNS(
-        '*',
-        'encoded'
-      )[0]?.textContent || '';
-
-      const description = getText(post, 'description');
-      const doc = new DOMParser().parseFromString(
-        encodedContent || description,
-        'text/html'
-      );
-
-      const image = doc.querySelector('img');
-
-      return image?.getAttribute('src') ||
-        image?.getAttribute('data-src') ||
-        '';
-    }
-
-    function showFallback() {
-      box.replaceChildren();
-
-      const message = document.createElement('p');
-      message.textContent =
-        "the post didn't load here. you can still read it on substack.";
-
-      const link = document.createElement('a');
-      link.className = 'read-more';
-      link.href = PINNED_POST_URL;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      link.textContent = 'read it on substack →';
-
-      box.append(message, link);
-    }
-
-    async function loadPosts() {
-      try {
-        const response = await fetch(FEED_ENDPOINT);
-
-        if (!response.ok) {
-          throw new Error('Feed unavailable');
-        }
-
-        const xmlText = await response.text();
-        const xml = new DOMParser().parseFromString(
-          xmlText,
-          'application/xml'
-        );
-
-        if (xml.querySelector('parsererror')) {
-          throw new Error('Invalid RSS feed');
-        }
-
-        // Find the pinned post in the feed so its title, date, and cover stay in sync.
-        const post = [...xml.querySelectorAll('channel > item')]
-          .find(item => getText(item, 'link').includes(PINNED_SLUG));
-
-        if (!post) {
-          throw new Error('Pinned post not found in feed');
-        }
-
-        const titleText = getText(post, 'title') || 'Latest post';
-        const linkText = getText(post, 'link') || PINNED_POST_URL;
-        const dateText = getText(post, 'pubDate');
-        const descriptionText = getText(post, 'description');
-
-        const published = new Date(dateText);
-        const dateLabel = Number.isNaN(published.getTime())
-          ? ''
-          : published.toLocaleDateString('en-US', {
-              month: 'long',
-              day: 'numeric',
-              year: 'numeric'
-            });
-
-        let excerptText = cleanHTML(descriptionText)
-          .replace(/^Listen now \(\d+ mins?\)\s*\|\s*/i, '');
-
-        const maxLength = 650;
-
-        if (excerptText.length > maxLength) {
-          excerptText = excerptText.slice(0, maxLength).trim() + '…';
-        }
-
-        const card = document.createElement('article');
-        card.className = 'post-card';
-
-        const coverUrl = findCoverImage(post);
-
-        if (coverUrl) {
-          const image = document.createElement('img');
-          image.className = 'post-cover';
-          image.src = coverUrl;
-          image.alt = 'Cover image for ' + titleText;
-          image.loading = 'lazy';
-
-          image.addEventListener('error', () => {
-            image.remove();
-          }, { once: true });
-
-          card.appendChild(image);
-        }
-
-        const content = document.createElement('div');
-        content.className = 'post-content';
-
-        if (dateLabel) {
-          const date = document.createElement('span');
-          date.className = 'post-date';
-          date.textContent = dateLabel;
-          content.appendChild(date);
-        }
-
-        const title = document.createElement('h3');
-        title.textContent = titleText;
-
-        const excerpt = document.createElement('p');
-        excerpt.className = 'post-excerpt';
-        excerpt.textContent =
-          excerptText || 'Read the latest post from Gilded Lilies.';
-
-        const readMore = document.createElement('a');
-        readMore.className = 'read-more';
-        readMore.href = linkText;
-        readMore.target = '_blank';
-        readMore.rel = 'noopener noreferrer';
-        readMore.textContent = 'read the full post →';
-
-        content.append(title, excerpt, readMore);
-        card.appendChild(content);
-        box.replaceChildren(card);
-
-      } catch (error) {
-        console.error('Unable to load Substack preview:', error);
-        showFallback();
-      }
-    }
-
-    loadPosts();
-  </script>
 </body>
 </html>
