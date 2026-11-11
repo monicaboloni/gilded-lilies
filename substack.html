@@ -474,6 +474,11 @@
     const box = document.getElementById('posts');
     const SUBSTACK_HOME = 'https://gildedliliesclub.substack.com';
 
+    // The post shown on this page. To feature a different post, change both values.
+    const PINNED_POST_URL =
+      'https://gildedliliesclub.substack.com/p/sexpionage-the-profumo-affair';
+    const PINNED_SLUG = '/p/sexpionage-the-profumo-affair';
+
     function getText(element, selector) {
       return element.querySelector(selector)?.textContent?.trim() || '';
     }
@@ -489,15 +494,6 @@
       return (doc.body.textContent || '')
         .replace(/\s+/g, ' ')
         .trim();
-    }
-
-    // Podcast episodes carry an audio enclosure (audio/mpeg).
-    // Written posts carry an image enclosure instead.
-    function isPodcast(item) {
-      const type = item.querySelector('enclosure')?.getAttribute('type') || '';
-      const desc = getText(item, 'description');
-
-      return type.startsWith('audio/') || /^Listen now/i.test(desc);
     }
 
     function findCoverImage(post) {
@@ -570,14 +566,14 @@
 
       const message = document.createElement('p');
       message.textContent =
-        "the latest post didn't load. you can still read it on substack.";
+        "the post didn't load here. you can still read it on substack.";
 
       const link = document.createElement('a');
       link.className = 'read-more';
-      link.href = SUBSTACK_HOME;
+      link.href = PINNED_POST_URL;
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
-      link.textContent = 'visit gilded lilies on substack →';
+      link.textContent = 'read it on substack →';
 
       box.append(message, link);
     }
@@ -600,22 +596,18 @@
           throw new Error('Invalid RSS feed');
         }
 
-        // Newest item that is NOT a podcast episode.
+        // Find the pinned post in the feed so its title, date, and cover stay in sync.
         const post = [...xml.querySelectorAll('channel > item')]
-          .find(item => !isPodcast(item));
+          .find(item => getText(item, 'link').includes(PINNED_SLUG));
 
         if (!post) {
-          throw new Error('No written posts found');
+          throw new Error('Pinned post not found in feed');
         }
 
         const titleText = getText(post, 'title') || 'Latest post';
-        const linkText = getText(post, 'link');
+        const linkText = getText(post, 'link') || PINNED_POST_URL;
         const dateText = getText(post, 'pubDate');
         const descriptionText = getText(post, 'description');
-
-        if (!linkText) {
-          throw new Error('Post link missing');
-        }
 
         const published = new Date(dateText);
         const dateLabel = Number.isNaN(published.getTime())
